@@ -1,6 +1,8 @@
 // import 'package:test/test.dart';
 import 'package:bloc_test/bloc_test.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_bloc_concepts/business_logic/cubit/counter_cubit.dart';
+import 'package:flutter_bloc_concepts/business_logic/cubit/internet_cubit.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -16,14 +18,18 @@ void main() {
     // * and necessary data,
     // * that our tests will be working with
     CounterCubit counterCubit;
-    counterCubit = CounterCubit();
+    counterCubit = CounterCubit(
+      internetCubit: InternetCubit(
+        connectivity: Connectivity(),
+      ),
+    );
 
     setUp(() {
       // ? why is this not working,
       // ? why is it giving err when not initialinzing
       // ? outside this function
 
-      counterCubit = CounterCubit();
+      // counterCubit = CounterCubit();
     });
 
     // * tearDown is a funtion that will get called after each
