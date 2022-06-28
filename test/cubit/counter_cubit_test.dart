@@ -18,18 +18,14 @@ void main() {
     // * and necessary data,
     // * that our tests will be working with
     CounterCubit counterCubit;
-    counterCubit = CounterCubit(
-      internetCubit: InternetCubit(
-        connectivity: Connectivity(),
-      ),
-    );
+    counterCubit = CounterCubit();
 
     setUp(() {
       // ? why is this not working,
       // ? why is it giving err when not initialinzing
       // ? outside this function
 
-      // counterCubit = CounterCubit();
+      counterCubit = CounterCubit();
     });
 
     // * tearDown is a funtion that will get called after each
