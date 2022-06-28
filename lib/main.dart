@@ -20,22 +20,17 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final AppRouter _appRouter = AppRouter();
 
-  // ! blocProvder doesn;t close itself automatically,
-  // ! so we have to close it manually using dispose()
-  @override
-  void dispose() {
-    _appRouter.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return BlocProvider(
+      create: (context) => CounterCubit(),
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        onGenerateRoute: _appRouter.onGenerateRoute,
       ),
-      onGenerateRoute: _appRouter.onGenerateRoute,
     );
   }
 }
