@@ -1,9 +1,11 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:convert';
+
 import 'package:equatable/equatable.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 part 'counter_state.dart';
 
-class CounterCubit extends Cubit<CounterState> {
+class CounterCubit extends Cubit<CounterState> with HydratedMixin {
   // * we need to set the initail state of the counter
   // * which is CounterState() with counterValue 0
   CounterCubit()
@@ -28,4 +30,30 @@ class CounterCubit extends Cubit<CounterState> {
           wasIncremented: false,
         ),
       );
+
+  // ! the below 2 methods are necessary for hydratedMixin
+  // ! because they are needed while storing data to and getting from
+  // ! local storage
+
+  // * fromJson is called everytime the app needs the
+  // * locally stored data
+  @override
+  CounterState? fromJson(Map<String, dynamic> json) {
+    // ! hydratedBloc will call this fromJson and retrieve the json
+    // ! which is already converted into a map
+
+    // * here we return a new instance of CounterState
+    // * populated with data retrieved from local storage
+
+    return CounterState.fromMap(json);
+  }
+
+  // * toJson is called when at every state emiited by the cubit
+  @override
+  Map<String, dynamic>? toJson(CounterState state) {
+    // * whenever a new state is emitted with a new value,
+    // * we want to store it in a Map and send it to hydratedbloc
+    // * to store on the local storeage
+    return state.toMap();
+  }
 }
