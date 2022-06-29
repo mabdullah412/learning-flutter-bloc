@@ -31,6 +31,20 @@ class CounterCubit extends Cubit<CounterState> with HydratedMixin {
         ),
       );
 
+  // ! onChange() is used for debugging bloc/cubit
+  // @override
+  // void onChange(Change<CounterState> change) {
+  //   print(change);
+  //   super.onChange(change);
+  // }
+
+  // ! onError() is used for debugging and error handling bloc/cubit
+  // @override
+  // void onError(Object error, StackTrace stackTrace) {
+  //   print('$error, $stackTrace');
+  //   super.onError(error, stackTrace);
+  // }
+
   // ! the below 2 methods are necessary for hydratedMixin
   // ! because they are needed while storing data to and getting from
   // ! local storage
@@ -44,6 +58,9 @@ class CounterCubit extends Cubit<CounterState> with HydratedMixin {
 
     // * here we return a new instance of CounterState
     // * populated with data retrieved from local storage
+
+    // adding error manually test onError() function
+    // addError(Exception('Error added manualy'), StackTrace.current);
 
     return CounterState.fromMap(json);
   }

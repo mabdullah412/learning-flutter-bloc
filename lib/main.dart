@@ -7,6 +7,7 @@ import 'package:path_provider/path_provider.dart';
 import 'business_logic/cubit/counter_cubit.dart';
 import 'business_logic/cubit/internet_cubit.dart';
 import 'business_logic/cubit/settings_cubit.dart';
+import 'business_logic/utility/app_bloc_observer.dart';
 import 'presentation/router/app_router.dart';
 
 void main() async {
@@ -33,8 +34,15 @@ void main() async {
   //   connectivity: Connectivity(),
   // ));
 
-  // ! below is a some kind of turn-around of the above commented code
-  // ! which has stopped working due to a bug in flutter
+  // Bloc.observer = AppBlocObserver();
+
+  // ? OLD MESSAGE
+  // ? below is a some kind of turn-around of the above commented code
+  // ? which has stopped working due to a bug in flutter
+
+  // ! NEW MESSAGE
+  // ! Below is the new way of writhing the above commented code,
+  // ! due to UPDATE in the flutter_bloc library
   HydratedBlocOverrides.runZoned(
     () => runApp(
       MyApp(appRouter: AppRouter(), connectivity: Connectivity()),
@@ -42,6 +50,7 @@ void main() async {
     storage: await HydratedStorage.build(
       storageDirectory: await getApplicationDocumentsDirectory(),
     ),
+    blocObserver: AppBlocObserver(),
   );
 }
 
@@ -58,9 +67,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
+      // ! here we can see that we are creating instances
+      // ! of our blocs/cubits,
+      // ! but actually the instance is created when they are called
+      // ! or looked upon for the first time by Provider or Listener
+
+      // ! this behavior can be changed by setting
+      // ! lazy parameter to true
       providers: [
         BlocProvider(
           create: (context) => InternetCubit(connectivity: connectivity),
+          // * lazy: true,
         ),
         BlocProvider(
           create: (context) => CounterCubit(),
